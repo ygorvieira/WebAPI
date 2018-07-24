@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace KitFesta_LojaAPI.Models
 {
@@ -48,17 +45,5 @@ namespace KitFesta_LojaAPI.Models
             produtoCarregado.Quantidade = produto.Quantidade;
         }
 
-        public string ToXml()
-        {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Carrinho));
-            StringWriter stringWriter = new StringWriter();
-
-            using(XmlWriter writer = XmlWriter.Create(stringWriter))
-            {
-                xmlSerializer.Serialize(writer, this);
-
-                return stringWriter.ToString();
-            }
-        }
     }
 }

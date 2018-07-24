@@ -36,6 +36,5 @@ namespace KitFesta_LojaAPI.DAO
         {
             banco.Remove(id);
         }
-
     }
 }
