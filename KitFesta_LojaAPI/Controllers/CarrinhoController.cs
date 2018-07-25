@@ -14,8 +14,8 @@ namespace KitFesta_LojaAPI.Controllers
         {
             try
             {
-                CarrinhoDAO dao = new CarrinhoDAO();
-                Carrinho carrinho = dao.Busca(id);
+                var dao = new CarrinhoDAO();
+                var carrinho = dao.Busca(id);
 
                 return Request.CreateResponse(HttpStatusCode.OK, carrinho);
             }
@@ -30,7 +30,7 @@ namespace KitFesta_LojaAPI.Controllers
 
         public HttpResponseMessage PostCarrinho([FromBody]Carrinho carrinho)
         {
-            CarrinhoDAO dao = new CarrinhoDAO();
+            var dao = new CarrinhoDAO();
             dao.Adiciona(carrinho);
 
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
@@ -40,6 +40,27 @@ namespace KitFesta_LojaAPI.Controllers
             response.Headers.Location = new Uri(location);
 
             return response;
+        }
+
+        [Route("api/carrinho/{idCarrinho}/produto/{idProduto}")]
+        public HttpResponseMessage DeleteCarrinho([FromUri]int idCarrinho, [FromUri]int idProduto)
+        {
+            try
+            {
+                var dao = new CarrinhoDAO();
+                var carrinho = dao.Busca(idCarrinho);
+                carrinho.Remove(idProduto);
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (KeyNotFoundException)
+            {
+                string mensagem = "Item não localizado";
+                HttpError erro = new HttpError(mensagem);
+
+                return Request.CreateResponse(HttpStatusCode.NotFound, erro);
+            }
+
         }
     }
 }
